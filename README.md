@@ -8,23 +8,39 @@ directory.
 
 You call scripts by calling `M-x commando-run-script` or `(commando-run-script "script-name")`.
 
+# Setup
+
+Add `commando.el` to your load path.
+
 # Defining scripts
 Add scripts to your .commando file with the `commando-add-script` macro.
 
 The code below shows a typical `.commando` file.
 
 ```
+;; Start the project
+(commando-add-script :start
+                     (shell-command "npm start"))
+
+;; Run the test suite
+(commando-add-script :start
+                     (shell-command "npm run-tests"))
+
+;; Build iOS executable
 (commando-add-script :build-ios
                      (progn
                        (shell-command "cordova prepare")
                        (shell-command "cordova build ios --device")))
 
+;; Build iOS executable and deploy to device
 (commando-add-script :run-ios
                      (progn
                        (shell-command "cordova prepare")
                        (shell-command "cordova build ios --device")
                        (async-shell-command "cordova run ios --device")))
 
+
+;; Rebuild tags file
 (commando-add-script :rebuild-tags
                      (async-shell-command (format "ctags -ReV -f TAGS %s"
                                                   (mapconcat 'identity
@@ -34,6 +50,7 @@ The code below shows a typical `.commando` file.
                                                               "src/js")
                                                              " "))))
 
+;; Using git, stage all changes and commit.
 (commando-add-script :stage-all-and-commit
                      (progn
                        (magit-stage-modified)
