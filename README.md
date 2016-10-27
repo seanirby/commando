@@ -1,12 +1,12 @@
 # commando.el
 
 `commando.el` is a simple way to let you associate elisp scripts with
-a project by adding a file named `.commando` containing your scripts
+a project.  Just add a file named `.commando` containing your scripts
 into your project's root directory.  Scripts that use emacs commands
 like `shell-command` will automatically be run from your project's root
 directory.
 
-You call scripts by calling `M-x commando-run-script` or `(commando-run-script "script-name")`.
+You run scripts by calling `M-x commando-run-script` or `(commando-run-script "script-name")`.
 
 # Setup
 
@@ -75,3 +75,5 @@ You have access to the following variables in your commando scripts
 2. Add a way to combine scripts
 
 3. Add before and after hooks to scripts
+
+4. Add support for a global commando file
