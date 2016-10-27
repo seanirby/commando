@@ -23,7 +23,7 @@ The code below shows a typical `.commando` file.
                      (shell-command "npm start"))
 
 ;; Run the test suite
-(commando-add-script :start
+(commando-add-script :run-tests
                      (shell-command "npm run-tests"))
 
 ;; Build iOS executable
