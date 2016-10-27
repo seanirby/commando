@@ -1,33 +1,60 @@
 # commando.el
 
-`commando.el` is a simple way to let you associate elisp scripts
-with a project by adding a file named `.commando` into your
-project's root directory
+`commando.el` is a simple way to let you associate elisp scripts with
+a project by adding a file named `.commando` containing your scripts
+into your project's root directory.  Scripts that use emacs commands
+like `shell-command` will automatically be run from your project's root
+directory.
 
-Then, you can call scripts defined in `.commando` by calling `M-x
-commando-run-task` in Emacs
+You call scripts by calling `M-x commando-run-script` or `(commando-run-script "script-name")`.
 
 # Defining scripts
-Add scripts to your .commando file by calling `commando-add-task`
+Add scripts to your .commando file with the `commando-add-script` macro.
 
-For example, below is a simple commando script definition for printing out the
-contents of the current file you are viewing in Emacs
+The code below shows a typical `.commando` file.
 
 ```
-(commando-add-task :ls_current_directory
-'(eshell-command (format "ls %s" commando/current-directory)))
+(commando-add-script :build-ios
+                     (progn
+                       (shell-command "cordova prepare")
+                       (shell-command "cordova build ios --device")))
+
+(commando-add-script :run-ios
+                     (progn
+                       (shell-command "cordova prepare")
+                       (shell-command "cordova build ios --device")
+                       (async-shell-command "cordova run ios --device")))
+
+(commando-add-script :rebuild-tags
+                     (async-shell-command (format "ctags -ReV -f TAGS %s"
+                                                  (mapconcat 'identity
+                                                             (list
+                                                              "node_modules/phaser/src"
+                                                              "node_modules/javascript-state-machine/state-machine.js"
+                                                              "src/js")
+                                                             " "))))
+
+(commando-add-script :stage-all-and-commit
+                     (progn
+                       (magit-stage-modified)
+                       (magit-commit (list "-m" (read-string "Enter your commit message: ")))))
 ```
 
-`commando/current-directory` is a local variable commando provides when executing your script.
+`commando/current-directory` is a local variable commando provides
+when executing your script.
 
 You have access to the following variables in your commando scripts
-1. `commando/project-root` - The path to the project's top-level directory
+
+1. `commando/project-root` - The path to the project's root directory
+
 2. `commando/current-file` - The path to the file currently being viewed in Emacs
+
 3. `commando/current-directory` - The directory of the current file
 
 # TODO
 
-1. Improve performance by caching project tasks
-2. Add a way to combine tasks
-3. Add before and after hooks to tasks
-4. Setup .commando files to enter emacs lisp interaction mode
+1. Improve performance by caching project scripts
+
+2. Add a way to combine scripts
+
+3. Add before and after hooks to scripts
