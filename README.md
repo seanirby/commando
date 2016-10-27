@@ -78,3 +78,5 @@ You have access to the following variables in your commando scripts
 3. Add before and after hooks to scripts
 
 4. Add support for a global commando file
+
+5. Add support for windows
