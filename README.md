@@ -3,10 +3,11 @@
 `commando.el` is a simple way to let you associate elisp scripts with
 a project.  Just add a file named `.commando` containing your scripts
 into your project's root directory.  Scripts that use emacs commands
-like `shell-command` will automatically be run from your project's root
-directory.
+like `shell-command` will automatically be run from the project root.
 
-You run scripts by calling `M-x commando-run-script` or `(commando-run-script "script-name")`.
+You run scripts by calling `M-x commando-run-script` or
+`(commando-run-script "script-name")`.  You should probably bind
+it to a keyboard shortcut.
 
 # Setup
 
